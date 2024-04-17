@@ -364,21 +364,27 @@ function checkRound() {
 
 /**
  * Resets the game. Called when either the player makes a mistake or wins the game.
- *
- * 1. Reset `computerSequence` to an empty array
- *
- * 2. Reset `playerSequence` to an empty array
- *
- * 3. Reset `roundCount` to an empty array
  */
 function resetGame(text) {
-  // TODO: Write your code here.
-  // Uncomment the code below:
-  // alert(text);
-  // setText(heading, "Simon Says");
-  // startButton.classList.remove("hidden");
-  // statusSpan.classList.add("hidden");
-  // padContainer.classList.add("unclickable");
+  // Notify player of win/loss
+  alert(text);
+
+  // Reset heading text
+  setText(heading, "Simon Says");
+
+  // Show `startButton`, hide `statusSpan`, set `padContainer` to 'unclickable'
+  startButton.classList.remove("hidden");
+  statusSpan.classList.add("hidden");
+  padContainer.classList.add("unclickable");
+
+  // 1. Reset `computerSequence` to an empty array
+  computerSequence = [];
+
+  // 2. Reset `playerSequence` to an empty array
+  playerSequence = [];
+
+  // 3. Reset `roundCount` to an empty array
+  roundCount = 0;
 }
 
 /**
