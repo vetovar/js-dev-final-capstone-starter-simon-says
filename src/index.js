@@ -319,7 +319,7 @@ function checkPress(color) {
     setTimeout(() => {
       lossSound.play();
       resetGame("Womp womp, try again!");
-    }, 500);
+    }, 2000);
     return;
   }
 
@@ -341,7 +341,7 @@ function checkRound() {
     setTimeout(() => {
       winningSound.play();
       resetGame("Winner winner chicken dinner! Congrats");
-    }, 500);
+    }, 2000);
   } else {
     // 2. Else, the `roundCount` variable is incremented by 1 and the `playerSequence` array
     // is reset to an empty array.
@@ -363,7 +363,7 @@ function checkRound() {
 }
 
 /**
- * Resets the game. Called when either the player makes a mistake or wins the game.
+ * Resets the game. Called when either the player makes a mistake or wins the game.g
  */
 function resetGame(text) {
   // Notify player of win/loss
