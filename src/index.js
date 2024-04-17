@@ -275,13 +275,14 @@ function playComputerTurn() {
 
 /**
  * Allows the player to play their turn.
- *
- * 1. Remove the "unclickable" class from the pad container so that each pad is clickable again
- *
- * 2. Display a status message showing the player how many presses are left in the round
  */
 function playHumanTurn() {
-  // TODO: Write your code here.
+  // 1. Remove the "unclickable" class from the pad container so that each pad is clickable again
+  padContainer.classList.remove("unclickable");
+
+  // 2. Display a status message showing the player how many presses are left in the round
+  remainingPresses = computerSequence.length - playerSequence.length;
+  setText(statusSpan, `Player turn: ${remainingPresses} presses remaining`);
 }
 
 /**
