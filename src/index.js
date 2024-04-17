@@ -242,29 +242,34 @@ function activatePads(sequence) {
 /**
  * Allows the computer to play its turn.
  *
- * 1. Add the `"unclickable"` class to `padContainer` to prevent the user from pressing
- * any of the pads
- *
- * 2. The status should display a message that says "The computer's turn..."
- *
- * 3. The heading should display a message that lets the player know how many rounds are left
- * (e.g., "`Round ${roundCount} of ${maxRoundCount}`")
- *
- * 4. Push a randomly selected color into the `computerSequence` array
- *
- * 5. Call `activatePads(computerSequence)` to light up each pad according to order defined in
- * `computerSequence`
- *
- * 6. The playHumanTurn() function needs to be called after the computer’s turn is over, so
- * we need to add a delay and calculate when the computer will be done with the sequence of
- * pad presses. The `setTimeout()` function executes `playHumanTurn(roundCount)` one second
- * after the last pad in the sequence is activated. The total duration of the sequence corresponds
- * to the current round (roundCount) multiplied by 600ms which is the duration for each pad in the
- * sequence.
  */
 function playComputerTurn() {
-  // TODO: Write your code here.
+  // 1. Add the `"unclickable"` class to `padContainer` to prevent the user from pressing
+  // any of the pads
+  padContainer.classList.add("unclickable");
 
+  // 2. The status should display a message that says "The computer's turn..."
+  setText(statusSpan, `The computer's turn...`);
+
+  // 3. The heading should display a message that lets the player know how many rounds are left
+  // (e.g., "`Round ${roundCount} of ${maxRoundCount}`")
+  setText(heading, `Round ${roundCount} of ${maxRoundCount}`);
+
+  // 4. Push a randomly selected color into the `computerSequence` array
+  computerSequence.push(getRandomItem(pads).color);
+
+  // 5. Call `activatePads(computerSequence)` to light up each pad according to order defined in
+  // `computerSequence`
+  activatePads(computerSequence);
+
+  /*
+   * 6. The playHumanTurn() function needs to be called after the computer’s turn is over, so
+   * we need to add a delay and calculate when the computer will be done with the sequence of
+   * pad presses. The `setTimeout()` function executes `playHumanTurn(roundCount)` one second
+   * after the last pad in the sequence is activated. The total duration of the sequence corresponds
+   * to the current round (roundCount) multiplied by 600ms which is the duration for each pad in the
+   * sequence.
+   */
   setTimeout(() => playHumanTurn(roundCount), roundCount * 600 + 1000); // 5
 }
 
