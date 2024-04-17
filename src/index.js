@@ -58,6 +58,7 @@ const pads = [
  */
 
 padContainer.addEventListener("click", padHandler);
+startButton.addEventListener("click", startButtonHandler);
 // TODO: Add an event listener `startButtonHandler()` to startButton.
 
 /**
@@ -67,19 +68,22 @@ padContainer.addEventListener("click", padHandler);
 /**
  * Called when the start button is clicked.
  *
- * 1. Call setLevel() to set the level of the game
- *
- * 2. Increment the roundCount from 0 to 1
- *
- * 3. Hide the start button by adding the `.hidden` class to the start button
- *
- * 4. Unhide the status element, which displays the status messages, by removing the `.hidden` class
- *
- * 5. Call `playComputerTurn()` to start the game with the computer going first.
  *
  */
 function startButtonHandler() {
-  // TODO: Write your code here.
+  // 1. Call setLevel() to set the level of the game
+  maxRoundCount = setLevel();
+
+  // 2. Increment the roundCount from 0 to 1
+  roundCount++;
+  // 3. Hide the start button by adding the `.hidden` class to the start button
+  startButton.classList.add("hidden");
+
+  // 4. Unhide the status element, which displays the status messages, by removing the `.hidden` class
+  statusSpan.classList.remove("hidden");
+
+  // 5. Call `playComputerTurn()` to start the game with the computer going first.
+  playComputerTurn();
 
   return { startButton, statusSpan };
 }
@@ -135,7 +139,14 @@ function padHandler(event) {
  *
  */
 function setLevel(level = 1) {
-  // TODO: Write your code here.
+    switch(level) {
+      case 1: return 8;
+      case 2: return 14;
+      case 3: return 20;
+      case 4: return 31;
+      default: return "Please enter level 1, 2, 3, or 4";
+    }
+  }
 }
 
 /**
