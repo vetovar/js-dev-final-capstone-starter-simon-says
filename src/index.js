@@ -211,19 +211,32 @@ function activatePad(color) {
 /**
  * Activates a sequence of colors passed as an array to the function
  *
- * 1. Iterate over the `sequence` array using `.forEach()`
- *
- * 2. For each element in `sequence`, use `setTimeout()` to call `activatePad()`, adding
- * a delay (in milliseconds) between each pad press. Without it, the pads in the sequence
- * will be activated all at once
- *
- * 3. The delay between each pad press, passed as a second argument to `setTimeout()`, needs
- * to change on each iteration. The first button in the sequence is activated after 600ms,
- * the next one after 1200ms (600ms after the first), the third one after 1800ms, and so on.
  */
 
 function activatePads(sequence) {
-  // TODO: Write your code here.
+  // initial delay set to 600ms
+  let delay = 600;
+
+  // 1. Iterate over the `sequence` array using `.forEach()`
+  sequence.forEach((color) => {
+    console.log(`ACTIVATING ${color}`);
+
+    /*
+     * 2. For each element in `sequence`, use `setTimeout()` to call `activatePad()`, adding
+     * a delay (in milliseconds) between each pad press. Without it, the pads in the sequence
+     * will be activated all at once
+     * */
+    setTimeout(() => {
+      activatePad(color);
+    }, delay);
+
+    /*
+     * 3. The delay between each pad press, passed as a second argument to `setTimeout()`, needs
+     * to change on each iteration. The first button in the sequence is activated after 600ms,
+     * the next one after 1200ms (600ms after the first), the third one after 1800ms, and so on.
+     */
+    delay += 600;
+  });
 }
 
 /**
