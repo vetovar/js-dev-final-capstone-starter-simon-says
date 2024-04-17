@@ -139,13 +139,17 @@ function padHandler(event) {
  *
  */
 function setLevel(level = 1) {
-    switch(level) {
-      case 1: return 8;
-      case 2: return 14;
-      case 3: return 20;
-      case 4: return 31;
-      default: return "Please enter level 1, 2, 3, or 4";
-    }
+  switch (level) {
+    case 1:
+      return 8;
+    case 2:
+      return 14;
+    case 3:
+      return 20;
+    case 4:
+      return 31;
+    default:
+      return "Please enter level 1, 2, 3, or 4";
   }
 }
 
@@ -165,34 +169,43 @@ function setLevel(level = 1) {
  * getRandomItem([1, 2, 3, 4]) //> returns 1
  */
 function getRandomItem(collection) {
-  // if (collection.length === 0) return null;
-  // const randomIndex = Math.floor(Math.random() * collection.length);
-  // return collection[randomIndex];
+  // Returns null if collection is empty
+  if (collection.length === 0) return null;
+
+  // Use Math library to generate randomIndex (1-4)
+  const randomIndex = Math.floor(Math.random() * collection.length);
+
+  // Return a random index given an array of indexes
+  return collection[randomIndex];
 }
 
 /**
  * Sets the status text of a given HTML element with a given a message
  */
 function setText(element, text) {
-  // TODO: Write your code here.
+  element.textContent = text;
   return element;
 }
 
 /**
  * Activates a pad of a given color by playing its sound and light
- *
- * 1. Use the `.find()` method to retrieve the pad from the `pads` array and store it in
- * a variable called `pad`
- *
- * 2. Add the `"activated"` class to the selected pad
- *
- * 3. Play the sound associated with the pad
- *
- * 4. After 500ms, remove the `"activated"` class from the pad
  */
 
 function activatePad(color) {
-  // TODO: Write your code here.
+  // Use the `.find()` method to retrieve the pad from the `pads` array and store it in
+  // a variable called `pad`
+  let pad = pads.find((element) => element.color === color);
+
+  // Add the `"activated"` class to the selected pad
+  pad.selector.classList.add("activated");
+
+  // Play the sound associated with the pad
+  pad.sound.play();
+
+  // After 500ms, remove the `"activated"` class from the pad
+  setTimeout(() => {
+    pad.selector.classList.remove("activated");
+  }, 500);
 }
 
 /**
