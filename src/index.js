@@ -53,6 +53,10 @@ const pads = [
   },
 ];
 
+// Winning and losing sound
+const winningSound = new Audio("./assets/celebrate.mp3");
+const lossSound = new Audio("./assets/try_again.mp3");
+
 /**
  * EVENT LISTENERS
  */
@@ -90,26 +94,26 @@ function startButtonHandler() {
 
 /**
  * Called when one of the pads is clicked.
- *
- * 1. `const { color } = event.target.dataset;` extracts the value of `data-color`
- * attribute on the element that was clicked and stores it in the `color` variable
- *
- * 2. `if (!color) return;` exits the function if the `color` variable is falsy
- *
- * 3. Use the `.find()` method to retrieve the pad from the `pads` array and store it
- * in a variable called `pad`
- *
- * 4. Play the sound for the pad by calling `pad.sound.play()`
- *
- * 5. Call `checkPress(color)` to verify the player's selection
- *
- * 6. Return the `color` variable as the output
  */
 function padHandler(event) {
+  // 1. `const { color } = event.target.dataset;` extracts the value of `data-color`
+  // attribute on the element that was clicked and stores it in the `color` variable
   const { color } = event.target.dataset;
+
+  // 2. `if (!color) return;` exits the function if the `color` variable is falsy
   if (!color) return;
 
-  // TODO: Write your code here.
+  // 3. Use the `.find()` method to retrieve the pad from the `pads` array and store it
+  // in a variable called `pad`
+  let pad = pads.find((element) => element.color === color);
+
+  // 4. Play the sound for the pad by calling `pad.sound.play()`
+  pad.sound.play();
+
+  // 5. Call `checkPress(color)` to verify the player's selection
+  checkPress(color);
+
+  // 6. Return the `color` variable as the output
   return color;
 }
 
@@ -288,46 +292,74 @@ function playHumanTurn() {
 /**
  * Checks the player's selection every time the player presses on a pad during
  * the player's turn
- *
- * 1. Add the `color` variable to the end of the `playerSequence` array
- *
- * 2. Store the index of the `color` variable in a variable called `index`
- *
- * 3. Calculate how many presses are left in the round using
- * `computerSequence.length - playerSequence.length` and store the result in
- * a variable called `remainingPresses`
- *
- * 4. Set the status to let the player know how many presses are left in the round
- *
- * 5. Check whether the elements at the `index` position in `computerSequence`
- * and `playerSequence` match. If they don't match, it means the player made
- * a wrong turn, so call `resetGame()` with a failure message and exit the function
- *
- * 6. If there are no presses left (i.e., `remainingPresses === 0`), it means the round
- * is over, so call `checkRound()` instead to check the results of the round
- *
  */
 function checkPress(color) {
-  // TODO: Write your code here.
+  // 1. Add the `color` variable to the end of the `playerSequence` array
+  playerSequence.push(color);
+
+  // 2. Store the index of the `color` variable in a variable called `index`
+  const index = playerSequence.length - 1;
+
+  /*
+   * 3. Calculate how many presses are left in the round using
+   * `computerSequence.length - playerSequence.length` and store the result in
+   * a variable called `remainingPresses`
+   */
+  remainingPresses = computerSequence.length - playerSequence.length;
+
+  // 4. Set the status to let the player know how many presses are left in the round
+  setText(statusSpan, `${remainingPresses} guesses left`);
+
+  /*
+   * 5. Check whether the elements at the `index` position in `computerSequence`
+   * and `playerSequence` match. If they don't match, it means the player made
+   * a wrong turn, so call `resetGame()` with a failure message and exit the function
+   */
+  if (computerSequence[index] !== playerSequence[index]) {
+    setTimeout(() => {
+      lossSound.play();
+      resetGame("Womp womp, try again!");
+    }, 500);
+    return;
+  }
+
+  // 6. If there are no presses left (i.e., `remainingPresses === 0`), it means the round
+  // is over, so call `checkRound()` instead to check the results of the round
+  if (remainingPresses === 0) {
+    checkRound();
+  }
 }
 
 /**
  * Checks each round to see if the player has completed all the rounds of the game * or advance to the next round if the game has not finished.
- *
- * 1. If the length of the `playerSequence` array matches `maxRoundCount`, it means that
- * the player has completed all the rounds so call `resetGame()` with a success message
- *
- * 2. Else, the `roundCount` variable is incremented by 1 and the `playerSequence` array
- * is reset to an empty array.
- * - And the status text is updated to let the player know to keep playing (e.g., "Nice! Keep going!")
- * - And `playComputerTurn()` is called after 1000 ms (using setTimeout()). The delay
- * is to allow the user to see the success message. Otherwise, it will not appear at
- * all because it will get overwritten.
- *
  */
 
 function checkRound() {
-  // TODO: Write your code here.
+  // 1. If the length of the `playerSequence` array matches `maxRoundCount`, it means that
+  // the player has completed all the rounds so call `resetGame()` with a success message
+  if (playerSequence.length === maxRoundCount) {
+    setTimeout(() => {
+      winningSound.play();
+      resetGame("Winner winner chicken dinner! Congrats");
+    }, 500);
+  } else {
+    // 2. Else, the `roundCount` variable is incremented by 1 and the `playerSequence` array
+    // is reset to an empty array.
+    roundCount++;
+    playerSequence = [];
+
+    // And the status text is updated to let the player know to keep playing (e.g., "Nice! Keep going!")
+    setText(statusSpan, "Nice! Keep going!");
+
+    /*
+     * And `playComputerTurn()` is called after 1000 ms (using setTimeout()). The delay
+     * is to allow the user to see the success message. Otherwise, it will not appear at
+     * all because it will get overwritten.
+     * */
+    setTimeout(() => {
+      playComputerTurn();
+    }, 1000);
+  }
 }
 
 /**
